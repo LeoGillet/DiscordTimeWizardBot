@@ -1,0 +1,55 @@
+{
+    "token": "OTgxODg3MjM5NjE5NDkzOTQ5.GrYJUS.34CxShf_E-jWnNjkiIfcT5OOoxBe2HTglsxSOg",
+    "channels": ["981897099815829566"],
+    "prefix": "%",
+    "language": "fr",
+
+
+    "words": {
+        "hours": {
+            "en": "hours",
+            "fr": "heures"
+        },
+        "seconds": {
+            "en": "seconds",
+            "fr": "secondes"
+        }
+    },
+
+    "messages": {
+        "reminder_added_channel": {
+            "fr": ":stopwatch: Super {}, je vous mentionnerai sur ce channel dans {} {}",
+            "en": ":stopwatch: Okay {}, I'll remind you on this channel in {} {}"
+        },
+        "reminder_added_pm": {
+            "fr": ":stopwatch: Super {}, je vous enverrai un message privé dans {} {}",
+            "en": ":stopwatch: Okay {}, I'll send you a private message in {} {}"
+        },
+        "reminder_error_numerical": {
+            "fr": ":warning: La durée entrée n'est pas numérique, veuillez entrer un nombre entier supérieur à 0.",
+            "en": ":warning: Couldn't add reminder, please enter an integer greater than 0."
+        },
+        "reminder_error_unit": {
+            "fr": ":warning: L'unité renseignée n'est pas valide. Unités valides : *'h', 'm', 's'*.",
+            "en": ":warning: Time unit invalid. Valid units : *'h', 'm', 's'*."
+        },
+        "reminder_error_unknown": {
+            "fr": ":warning: Une erreur inconnue est survenue lors de la création du rappel.",
+            "en": ":warning: An unknown error occured when creating reminder."
+        },
+        "_reminder_object_str" : {
+            "fr": "Rappel à {} dans {} secondes {}",
+            "en": "Reminder to {} in {} seconds {}"
+        },
+        "reminder_done_channel": {
+            "fr": ":stopwatch: <@{}> : Rappel *{}*",
+            "en": ":stopwatch: <@{}> : Reminder *{}*"
+        },
+        "reminder_done_pm": {
+            "fr": ":stopwatch: <@{}> : Rappel *{}*. Lien vers channel : <#{}>",
+            "en": ":stopwatch: <@{}> : Reminder *{}*. Link to channel : <#{}>"
+        }
+    }
+
+
+}

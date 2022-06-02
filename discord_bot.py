@@ -46,7 +46,7 @@ class DiscordClient(discord.Client):
         else:
             content = "**--- :robot: Available commands : ---**\n"
         for command in COMMANDS:
-            content += f"**:point_right: {str(command[0]).replace('(', '').replace(')', '')}** : {command[2][gv.language]}\n"
+            content += f"**:point_right: {str(command[0]).replace('(', '').replace(')', '')}** : {command[2]}\n"
         await channel.send(content)
 
     async def cmdRemindChan(message):
@@ -73,32 +73,16 @@ class DiscordClient(discord.Client):
         # %help, %h, %?
         (
             (f'{gv.prefix}help', f'{gv.prefix}h', f'{gv.prefix}?'), 
-            cmdHelp, 
-            {
-                "en": "Lists available commands and their description",
-                "fr": "Liste les différentes commandes et leur description"
-            }
+            cmdHelp, ms.help_help
         ),
         # %remindchannel, %rc
         (
             (f'{gv.prefix}remindchannel', f'{gv.prefix}remindchan', f'{gv.prefix}rc'), 
-            cmdRemindChan,
-            {
-                "en":   "Reminds the user of doing something via a ping in the channel\n\t"+
-                        "*Example : '%remindchan 30m Oven*' | '%rc 2h Fetch Bob from school'",
-                "fr":   "Rappelle l'utilisateur d'une tâche à effectuer avec un ping dans le channel. Utilisation: %remindchan <durée> <raison>\n\t"+
-                        "*Exemple : '%remindchan 30m Four*' | '%rc 2h Aller chercher Félix à l'école'"
-            }
+            cmdRemindChan, ms.help_remindchannel
         ),
         (
             (f'{gv.prefix}remindme', f'{gv.prefix}rm'), 
-            cmdRemindMe,
-            {
-                "en":   "Reminds the user of doing something via a private message\n\t"+
-                        "*Example : '%remindme 30m Oven*' | '%rm 2h Fetch Bob from school'",
-                "fr":   "Rappelle l'utilisateur d'une tâche à effectuer avec un message privé. Utilisation: %remindme <durée> <raison>\n\t"+
-                        "*Exemple : '%remindme 30m Four*' | '%rm 2h Aller chercher Félix à l'école'"
-            }
+            cmdRemindMe, ms.help_remindme
         )
     )
 
@@ -141,10 +125,7 @@ async def addReminder(message, typeR):
     if len(content) > 1:
         reason = ' '.join(content[1:])
     endtime = checkIfTimeValid(time_specified)
-    if endtime[0] > 0: # Time specified is valid            
-        reminders.append(Reminder(author, channel, endtime[0], reason, typeR))
-        return endtime
-    else:
+    if type(endtime) is not tuple:
         if endtime == -1:
             await channel.send(ms.reminder_error_numerical)
         elif endtime == -2:
@@ -152,3 +133,6 @@ async def addReminder(message, typeR):
         else:
             await channel.send(ms.reminder_error_unknown)
         return False
+    else: # Time specified is valid            
+        reminders.append(Reminder(author, channel, endtime[0], reason, typeR))
+        return endtime

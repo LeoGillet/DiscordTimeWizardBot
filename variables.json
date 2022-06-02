@@ -46,6 +46,18 @@
         "reminder_done_pm": {
             "fr": ":stopwatch: <@{}> : Rappel *{}*. Lien vers channel : <#{}>",
             "en": ":stopwatch: <@{}> : Reminder *{}*. Link to channel : <#{}>"
+        },
+        "help_help": {
+            "en": "Lists available commands and their description",
+            "fr": "Liste les différentes commandes et leur description"
+        },
+        "help_remindchannel": {
+            "en": "Reminds the user of doing something via a ping in the channel\n\t*Example : '%remindchan 30m Oven*' | '%rc 2h Fetch Bob from school'",
+            "fr":   "Rappelle l'utilisateur d'une tâche à effectuer avec un ping dans le channel. Utilisation: %remindchan <durée> <raison>\n\t*Exemple : '%remindchan 30m Four*' | '%rc 2h Aller chercher Félix à l'école'"
+        },
+        "help_remindme": {
+            "en":   "Reminds the user of doing something via a private message\n\t*Example : '%remindme 30m Oven*' | '%rm 2h Fetch Bob from school'",
+            "fr":   "Rappelle l'utilisateur d'une tâche à effectuer avec un message privé. Utilisation: %remindme <durée> <raison>\n\t*Exemple : '%remindme 30m Four*' | '%rm 2h Aller chercher Félix à l'école'"
         }
     }
 

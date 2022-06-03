@@ -91,6 +91,7 @@ class DiscordClient(discord.Client):
         print('Logged on as {0}!'.format(self.user))
         print('[INFO] Set prefix is', gv.prefix)
         print('[INFO] Set language is', gv.language)
+        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='his Stopwatch'))
 
     async def on_message(self, message):
         for command in COMMANDS:

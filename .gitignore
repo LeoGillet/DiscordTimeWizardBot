@@ -152,4 +152,3 @@ cython_debug/
 #.idea/
 
 secret_variables.json
-secret_variables.json

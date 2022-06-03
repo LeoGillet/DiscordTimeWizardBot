@@ -75,11 +75,12 @@ class DiscordClient(discord.Client):
             (f'{gv.prefix}help', f'{gv.prefix}h', f'{gv.prefix}?'), 
             cmdHelp, ms.help_help
         ),
-        # %remindchannel, %rc
+        # %remindchannel, %remindchan, %rc
         (
             (f'{gv.prefix}remindchannel', f'{gv.prefix}remindchan', f'{gv.prefix}rc'), 
             cmdRemindChan, ms.help_remindchannel
         ),
+        # %remindme, %rm
         (
             (f'{gv.prefix}remindme', f'{gv.prefix}rm'), 
             cmdRemindMe, ms.help_remindme
@@ -92,11 +93,10 @@ class DiscordClient(discord.Client):
         print('[INFO] Set language is', gv.language)
 
     async def on_message(self, message):
-        if str(message.channel.id) in gv.channels:
-            for command in COMMANDS:
-                if message.content.startswith(command[0]):
-                    await command[1](message)
-            return None
+        for command in COMMANDS:
+            if message.content.startswith(command[0]):
+                await command[1](message)
+        return None
 
 
 

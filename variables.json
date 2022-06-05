@@ -16,12 +16,12 @@
 
     "messages": {
         "reminder_added_channel": {
-            "fr": ":stopwatch: Super {}, je vous mentionnerai sur ce channel dans {} {}",
-            "en": ":stopwatch: Okay {}, I'll remind you on this channel in {} {}"
+            "fr": ":stopwatch: Super {}, je vous mentionnerai sur ce channel dans {}",
+            "en": ":stopwatch: Okay {}, I'll remind you on this channel in {}"
         },
         "reminder_added_pm": {
-            "fr": ":stopwatch: Super {}, je vous enverrai un message privé dans {} {}",
-            "en": ":stopwatch: Okay {}, I'll send you a private message in {} {}"
+            "fr": ":stopwatch: Super {}, je vous enverrai un message privé dans {}",
+            "en": ":stopwatch: Okay {}, I'll send you a private message in {}"
         },
         "reminder_error_numerical": {
             "fr": ":warning: La durée entrée n'est pas numérique, veuillez entrer un nombre entier supérieur à 0.",
@@ -34,6 +34,10 @@
         "reminder_error_unknown": {
             "fr": ":warning: Une erreur inconnue est survenue lors de la création du rappel.",
             "en": ":warning: An unknown error occured when creating reminder."
+        },
+        "reminder_error_invalid": {
+            "fr": "La durée saisie n'est pas valide. Merci de réessayer. Exemple: '2h35m40s'",
+            "en": "Input time is not valid. Please try again. Example: '2h35m40s'"
         },
         "_reminder_object_str" : {
             "fr": "Rappel à {} dans {} secondes {}",

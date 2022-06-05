@@ -3,6 +3,7 @@ import sys
 import time
 import asyncio
 from variables_interface import GlobalVariables, Messages
+import time_parsing as tp
 
 gv = GlobalVariables()
 ms = Messages()
@@ -49,23 +50,22 @@ class DiscordClient(discord.Client):
             content += f"**:point_right: {str(command[0]).replace('(', '').replace(')', '')}** : {command[2]}\n"
         await channel.send(content)
 
-    async def cmdRemindChan(message):
+    async def cmdRemindChanIn(message):
         endtime = await addReminder(message, 'channel')
         if endtime:
             await message.add_reaction('✅')
-            await message.channel.send(ms.reminder_added_channel.format(f'<@{message.author.id}>', endtime[1], endtime[2]))
+            await message.channel.send(ms.reminder_added_channel.format(f'<@{message.author.id}>', tp.getTimeDelta(endtime)))
         else:
             return None
 
-    async def cmdRemindMe(message):
+    async def cmdRemindMeIn(message):
         endtime = await addReminder(message, 'pm')
         if endtime:
             await message.add_reaction('✅')
-            await message.channel.send(ms.reminder_added_pm.format(f'<@{message.author.id}>', endtime[1], endtime[2]))
+            await message.channel.send(ms.reminder_added_pm.format(f'<@{message.author.id}>', tp.getTimeDelta(endtime)))
         else:
             return None
 
-    
     global reminders, COMMANDS
     reminders = list()
     # (Chat command, function to be called, description dictionary)
@@ -75,23 +75,26 @@ class DiscordClient(discord.Client):
             (f'{gv.prefix}help', f'{gv.prefix}h', f'{gv.prefix}?'), 
             cmdHelp, ms.help_help
         ),
-        # %remindchannel, %remindchan, %rc
+        # %remindchannelin, %remindchanin, %rcin
         (
-            (f'{gv.prefix}remindchannel', f'{gv.prefix}remindchan', f'{gv.prefix}rc'), 
-            cmdRemindChan, ms.help_remindchannel
+            (f'{gv.prefix}remindchannelin', f'{gv.prefix}remindchanin', f'{gv.prefix}rcin'), 
+            cmdRemindChanIn, ms.help_remindchannel
         ),
-        # %remindme, %rm
+        # %remindmein, %rmin
         (
-            (f'{gv.prefix}remindme', f'{gv.prefix}rm'), 
-            cmdRemindMe, ms.help_remindme
-        )
+            (f'{gv.prefix}remindmein', f'{gv.prefix}rmin'), 
+            cmdRemindMeIn, ms.help_remindme
+        ),
+        # %remindchannelat, %remindchanat, %rcat (WIP)
+        # %remindmeat, %rmat (WIP)
     )
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
         print('[INFO] Set prefix is', gv.prefix)
         print('[INFO] Set language is', gv.language)
-        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='his Stopwatch'))
+        rpc_name = "his stopwatch" if gv.prefix=='en' else "sa montre"
+        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=rpc_name))
 
     async def on_message(self, message):
         for command in COMMANDS:
@@ -99,41 +102,13 @@ class DiscordClient(discord.Client):
                 await command[1](message)
         return None
 
-
-
-def checkIfTimeValid(time_specified):
-    try: # Checks if time is a numerical value
-        num = int(time_specified[:-1])
-    except:
-        return -1
-    
-    if time_specified.endswith("h"):
-        return time.time()+num*3600.0, num, ms.hours
-    elif time_specified.endswith("m"):
-        return time.time()+num*60.0, num, "minutes"
-    elif time_specified.endswith("s"):
-        return time.time()+num, num, ms.seconds
-    else: # Unit is not valid
-        return -2
-
 async def addReminder(message, typeR):
-    content = message.content.split()
-    content.pop(0)
     channel = message.channel
-    author = message.author
-    time_specified = content[0]
-    reason = None
-    if len(content) > 1:
-        reason = ' '.join(content[1:])
-    endtime = checkIfTimeValid(time_specified)
-    if type(endtime) is not tuple:
-        if endtime == -1:
-            await channel.send(ms.reminder_error_numerical)
-        elif endtime == -2:
-            await channel.send(ms.reminder_error_unit)
-        else:
-            await channel.send(ms.reminder_error_unknown)
+    time_specified, reason = tp.extractInfoFromMessage(message)
+    endtime = tp.messageToSeconds(time_specified)
+    if endtime == -1:
+        await channel.send(ms.reminder_error_invalid)
         return False
     else: # Time specified is valid            
-        reminders.append(Reminder(author, channel, endtime[0], reason, typeR))
+        reminders.append(Reminder(message.author, message.channel, endtime, reason, typeR))
         return endtime
